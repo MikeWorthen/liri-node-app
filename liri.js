@@ -37,7 +37,11 @@ var concertThis = function(artist){
           }
         }
       );
-}
+};
+
+var getArtistNames = function(artist) {
+    return artist.name;
+  };
 
 // Take song and search Spotify for info
 var getMeSpotify = function(songName) {
@@ -96,6 +100,20 @@ var movieThis = function(movie){
       );
 }
 
+var doWhatItSays = function(){
+
+    // read from file
+    fs.readFile("random.txt", "utf8", function (err, data) {
+        if(err){
+            return console.log(err)
+        }
+        
+        var dataArr = data.split(",")
+
+        runAction(dataArr[0], dataArr[1])
+    });
+}
+
 // Output to console and write to log file
 var outputData = function(data) {
     console.log(data)
@@ -107,25 +125,30 @@ var outputData = function(data) {
     })
 }
 
-var runAction = function(func, parm) {
+var runAction = function(func, funcData) {
     switch (func) {
         case "concert-this":
-            concertThis(functionData);
+            concertThis(funcData);
             break
         case "spotify-this-song":
-            getMeSpotify(functionData);
+            getMeSpotify(funcData);
             break
         case "movie-this":
-            movieThis(functionData);
+            movieThis(funcData);
             break
+        case "do-what-it-says":
+            doWhatItSays();
+            break;
         default:
             outputData("Incorrect Command, Please try again.") 
     }
-}
+};
 
-var runThis = function(argOne, argTwo) {
-    pick(argOne, argTwo);
+
+  
+var runProcess = function(num1, num2) {
+    runAction(num1, num2);
   };
   
-  runThis(process.argv[2], process.argv.slice(3).join(" "));
+  runProcess(process.argv[2], process.argv.slice(3).join(" "));
 
